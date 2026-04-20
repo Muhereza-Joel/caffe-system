@@ -1,0 +1,56 @@
+models:
+  Customer:
+    salutation: string
+    name: string
+    phone: string nullable
+    email: string nullable
+    timestamps: true
+    softDeletes: true
+
+  Category:
+    name: string
+    description: text nullable
+    timestamps: true
+    softDeletes: true
+
+  Product:
+    name: string
+    description: text nullable
+    price: decimal:10,2
+    category_id: foreign:categories.id onDelete:cascade
+    is_available: boolean default:true
+    timestamps: true
+    softDeletes: true
+
+  Table:
+    name: string
+    capacity: integer
+    status: string default:available
+    timestamps: true
+    softDeletes: true
+
+  Order:
+    user_id: id
+    customer_id: foreign:customers.id nullable
+    table_id: foreign:tables.id nullable
+    status: string default:pending
+    total_amount: decimal:10,2 default:0
+    timestamps: true
+    softDeletes: true
+
+  OrderItem:
+    order_id: foreign:orders.id
+    product_id: foreign:products.id
+    quantity: integer
+    price: decimal:10,2
+    timestamps: true
+    softDeletes: true
+
+  Payment:
+    order_id: foreign:orders.id
+    amount: decimal:10,2
+    method: string
+    status: string default:completed
+    transaction_reference: string nullable
+    timestamps: true
+    softDeletes: true

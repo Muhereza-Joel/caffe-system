@@ -1,0 +1,31 @@
+created:
+    - database/factories/CustomerFactory.php
+    - database/factories/CategoryFactory.php
+    - database/factories/ProductFactory.php
+    - database/factories/TableFactory.php
+    - database/factories/OrderFactory.php
+    - database/factories/OrderItemFactory.php
+    - database/factories/PaymentFactory.php
+    - database/migrations/2026_04_13_083633_create_customers_table.php
+    - database/migrations/2026_04_13_083634_create_categories_table.php
+    - database/migrations/2026_04_13_083635_create_products_table.php
+    - database/migrations/2026_04_13_083636_create_tables_table.php
+    - database/migrations/2026_04_13_083637_create_orders_table.php
+    - database/migrations/2026_04_13_083638_create_order_items_table.php
+    - database/migrations/2026_04_13_083639_create_payments_table.php
+    - app/Models/Customer.php
+    - app/Models/Category.php
+    - app/Models/Product.php
+    - app/Models/Table.php
+    - app/Models/Order.php
+    - app/Models/OrderItem.php
+    - app/Models/Payment.php
+models:
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string nullable' }
+    Customer: { salutation: string, name: string, phone: 'string nullable', email: 'string nullable', timestamps: timestamps, softdeletes: softDeletes }
+    Category: { name: string, description: 'text nullable', timestamps: timestamps, softdeletes: softDeletes }
+    Product: { name: string, description: 'text nullable', price: 'decimal:10,2', category_id: 'foreign:categories.id onDelete:cascade', is_available: 'boolean default:true', timestamps: timestamps, softdeletes: softDeletes }
+    Table: { name: string, capacity: integer, status: 'string default:available', timestamps: timestamps, softdeletes: softDeletes }
+    Order: { user_id: id, customer_id: 'foreign:customers.id nullable', table_id: 'foreign:tables.id nullable', status: 'string default:pending', total_amount: 'decimal:10,2 default:0', timestamps: timestamps, softdeletes: softDeletes }
+    OrderItem: { order_id: 'foreign:orders.id', product_id: 'foreign:products.id', quantity: integer, price: 'decimal:10,2', timestamps: timestamps, softdeletes: softDeletes }
+    Payment: { order_id: 'foreign:orders.id', amount: 'decimal:10,2', method: string, status: 'string default:completed', transaction_reference: 'string nullable', timestamps: timestamps, softdeletes: softDeletes }
