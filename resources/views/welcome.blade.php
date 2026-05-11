@@ -74,8 +74,11 @@
     </div>
     @endif
 
-    <nav :class="scrolled ? 'glass shadow-sm py-3' : 'bg-transparent py-5'" class="fixed w-full top-0 z-50 transition-all duration-300">
+    <nav x-data="{ scrolled: false, mobileOpen: false }"
+        :class="scrolled ? 'glass shadow-sm py-3' : 'bg-transparent py-5'"
+        class="fixed w-full top-0 z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
             <div class="flex items-center gap-2">
                 <div class="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,6 +88,7 @@
                 <a href="#" class="text-2xl font-extrabold text-slate-900 tracking-tight">SmartCaffee</a>
             </div>
 
+            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
                 <a href="#hero" class="hover:text-orange-600 transition">Our Roast</a>
                 <a href="#shop" class="hover:text-orange-600 transition">Menu</a>
@@ -96,8 +100,31 @@
                 </div>
                 @endauth
             </div>
+
+            <!-- Mobile Hamburger -->
+            <button @click="mobileOpen = !mobileOpen" class="md:hidden text-slate-900 focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileOpen" x-transition
+            class="md:hidden bg-white shadow-lg rounded-b-2xl mt-2 px-6 py-4 space-y-4 text-sm font-semibold text-slate-700">
+            <a href="#hero" class="block hover:text-orange-600 transition">Our Roast</a>
+            <a href="#shop" class="block hover:text-orange-600 transition">Menu</a>
+            @auth
+            <a href="#my-orders" class="block hover:text-orange-600 transition">My Orders</a>
+            <div class="flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-full">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <span class="text-slate-900">Hello, {{ explode(' ', Auth::user()->name)[0] }}</span>
+            </div>
+            @endauth
         </div>
     </nav>
+
 
     <button x-show="cartCount > 0" @click="openModal = true"
         class="fixed bottom-8 right-8 z-40 bg-orange-600 text-white p-4 rounded-full shadow-2xl hover:bg-orange-700 transition-all flex items-center gap-3 group"
